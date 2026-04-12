@@ -87,11 +87,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-
-
-
 main()
   .then(() => {
     console.log("connected to DB");
@@ -100,15 +95,13 @@ main()
     console.log(err);
   });
 
-
-
 async function main() {
   await mongoose.connect(dburl);
 }
 
-// app.get("/", (req, res) => {
-//     res.send("hi!, i am root");
-// });
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 app.use((req, res, next) => {
   console.log("METHOD:", req.method, "URL:", req.url);
