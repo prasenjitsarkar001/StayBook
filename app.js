@@ -1,5 +1,4 @@
 require('dotenv').config();
-console.log(process.env);
 
 const express = require("express");
 const app = express();
@@ -15,7 +14,11 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 const session = require("express-session");
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MongoStore = require('connect-mongo');
+
+const dburl=process.env.ATLASDB_URL;
+
+
 const flash = require("connect-flash");
 
 const axios = require("axios");
@@ -37,8 +40,21 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 
+const store = MongoStore.create({
+  mongoUrl: dburl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", (err) => {
+  console.log("ERROR in MONGO SESSION STORE", err);
+});
+
 const sessionOption = {
-  secret: "mySecretCode",
+  store,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
     cookie:{
@@ -87,14 +103,17 @@ main()
 
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dburl);
 }
 
 // app.get("/", (req, res) => {
 //     res.send("hi!, i am root");
 // });
 
-
+app.use((req, res, next) => {
+  console.log("METHOD:", req.method, "URL:", req.url);
+  next();
+});
 
 
 //routes part start

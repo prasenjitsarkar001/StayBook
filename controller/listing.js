@@ -6,7 +6,7 @@ module.exports.index = async (req, res) => {
     res.render("listings/index.ejs", { allListings });
 };
 // new route controller
-module.exports.renderNew =(req, res) => {
+module.exports.renderNew = (req, res) => {
     res.render("listings/new.ejs");
 };
 //show route controller
@@ -29,15 +29,12 @@ module.exports.showListing = async (req, res) => {
 };
 // create route controller
 module.exports.createListing = async (req, res, next) => {
-    console.log("Form data received:", req.body.listing);
-
-    let { error } = listingSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError(400, error.details[0].message);
-    }
+    let url = req.file.path;
+    let filename = req.file.filename;
 
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+    newListing.image = { url, filename };
     await newListing.save();
     req.flash("success", "New Listing Created!");
 
@@ -56,16 +53,22 @@ module.exports.editListing = async (req, res) => {
 // update route controller
 module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
-    if (!req.body.listing) {
-        throw new ExpressError(400, "send valid data for listing");
+
+    let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+    if (req.file) {
+        listing.image = {
+            url: req.file.path,
+            filename: req.file.filename,
+        };
     }
-   
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    await listing.save();
+
     req.flash("success", "Listing Updated!")
     res.redirect(`/listings/${id}`);
 };
 // delete route controller
-module.exports.deleteListing =async (req, res) => {
+module.exports.deleteListing = async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);

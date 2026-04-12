@@ -1,4 +1,4 @@
-
+const User = require("../models/user");
 // Signup page
 module.exports.renderSignupFrom = (req, res) => {
   res.render("users/signup.ejs");
@@ -87,11 +87,6 @@ module.exports.newPassword =async (req, res) => {
 
   await user.setPassword(password);   // passport-local-mongoose
   await user.save();
-
-//   console.log("Before:", user.hash);
-// await user.setPassword(password);
-// await user.save();
-// console.log("After:", user.hash);
 
   req.flash("success", "Password updated successfully.");
   res.redirect("/login");
