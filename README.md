@@ -81,13 +81,6 @@ cd staybook
 ### 2. Install dependencies
 npm install
 
-### 4. Create .env file
-- ATLASDB_URL=your_mongodb_connection_string
-- SESSION_SECRET=your_secret_key
-- CLOUD_NAME=your_cloudinary_name
-- CLOUD_API_KEY=your_api_key
-- CLOUD_API_SECRET=your_api_secret
-
 ### Run the app
 - node app.js
 
