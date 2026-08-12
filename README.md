@@ -18,6 +18,9 @@ StayBook is a full-stack web application that allows users to explore, create, a
 - 🔎 Browse all listings
 - 🧑‍💼 Owner-based authorization (only owner can edit/delete)
 - ☁️ MongoDB Atlas database
+- 💳 Razorpay payment integration
+- 🏨 Booking and reservation system
+- 📋 Booking confirmation and booking history
 - 🌐 Deployed on Render
 
 ---
@@ -44,6 +47,11 @@ StayBook is a full-stack web application that allows users to explore, create, a
 ### File Upload
 - Multer
 - Cloudinary
+
+### Payments
+- Razorpay
+- Razorpay Orders API
+- Razorpay Payment Signature Verification
 
 ---
 
@@ -104,10 +112,14 @@ npm install
 - MongoDB Atlas used for database
 - Environment variables configured in Render dashboard
 
-### ⚠️ Important Notes
-- .env file is not pushed to GitHub
-- Keep API keys secure
-- Enable MongoDB Atlas network access (0.0.0.0/0)
+### Payments Cards Details
+| Network | Card Number | Card Type | Card Sub Type | CVV & Expiry Date |
+| :--- | :--- | :--- | :--- | :--- |
+| Visa | 4100 2800 0000 1007 | Debit | Consumer | Use a random CVV and any future date |
+| Mastercard | 5555 5100 0008 1006 | Credit | Business | Use a random CVV and any future date |
+| Mastercard | 5180 2872 0009 1001 | Prepaid | Consumer | Use a random CVV and any future date |
+| RuPay | 6527 6589 0000 1005 | Credit | Consumer | Use a random CVV and any future date |
+| Diners | 3608 280009 1007 | Credit | Consumer | Use a random CVV and any future date |
 
 ### 🧠 Future Improvements
 
