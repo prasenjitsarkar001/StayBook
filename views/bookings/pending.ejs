@@ -1,0 +1,105 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container my-5">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 800px;">
+
+        <div class="card-body text-center p-5">
+
+            <!-- Pending Icon -->
+            <div
+                class="mx-auto mb-4 d-flex align-items-center justify-content-center"
+                style="
+                    width: 75px;
+                    height: 75px;
+                    border-radius: 50%;
+                    background-color: #ffc107;
+                    color: white;
+                    font-size: 40px;
+                "
+            >
+                !
+            </div>
+
+            <h1 class="fw-bold mb-2">
+                Payment Pending
+            </h1>
+
+            <p class="text-muted mb-4">
+                Your booking has been created, but payment has not been completed.
+            </p>
+
+            <hr>
+
+            <!-- Property -->
+            <div class="text-start mt-4">
+
+                <h3 class="fw-bold">
+                    <%= booking.listing.title %>
+                </h3>
+
+                <p class="text-muted mb-4">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <%= booking.listing.location %>,
+                    <%= booking.listing.country %>
+                </p>
+
+            </div>
+
+            <!-- Price -->
+            <div class="text-start">
+
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Property Price</span>
+                    <strong>
+                        ₹<%= booking.listing.price.toLocaleString("en-IN") %>
+                    </strong>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Tax (18%)</span>
+                    <strong>
+                        ₹<%= (booking.totalAmount - booking.listing.price).toLocaleString("en-IN") %>
+                    </strong>
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between fs-4">
+                    <strong>Total Amount</strong>
+                    <strong>
+                        ₹<%= booking.totalAmount.toLocaleString("en-IN") %>
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="alert alert-warning mt-4">
+                <i class="fa-solid fa-circle-exclamation me-2"></i>
+                Payment is required to confirm your booking.
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-center gap-3 mt-4">
+
+                <a
+                    href="/listings/<%= booking.listing._id %>"
+                    class="btn btn-outline-dark"
+                >
+                    Back to Property
+                </a>
+
+                <a
+                    href="/bookings"
+                    class="btn btn-dark"
+                >
+                    My Bookings
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

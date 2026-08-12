@@ -20,27 +20,97 @@
         <p>
           <%= listing.description %>
         </p>
-        <p class="card-text text-muted">
-          &#8377;
-          <%= listing.price ? listing.price.toLocaleString("en-IN") : "Not Available" %>
-            /night
-        </p>
-        <p class="card-text">
-          <%= listing.location %><br>
-        </p>
-        <p class="card-text">
-          <%= listing.country %>
-        </p>
-        <br />
+        <% const basePrice=listing.price || 0; const tax=Math.round(basePrice * 0.18); const totalPrice=basePrice + tax;
+          %>
 
-        <%if(currUser && listing.owner && listing.owner._id && currUser._id.equals(listing.owner._id)){%>
-          <div class="btns d-flex gap-3 mt-3">
-            <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark  edit-btn ">Edit</a>
-            <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
-              <button class="btn btn-dark  ">Delete</button>
+          <p class="card-text text-muted">
+            &#8377;<%= basePrice.toLocaleString("en-IN") %> /night
+          </p>
+
+          <p class="card-text">
+            <%= listing.location %><br>
+          </p>
+          <p class="card-text">
+            <%= listing.country %>
+          </p>
+          <% if (currUser && listing.owner && !currUser._id.equals(listing.owner._id)) { %>
+
+            <form action="/bookings/preview/<%= listing._id %>" method="POST" class="mt-4">
+
+              <!-- Check-in -->
+              <div class="mb-3">
+                <label for="checkIn" class="form-label fw-semibold">
+                  Check-in
+                </label>
+
+                <input type="date" id="checkIn" name="checkIn" class="form-control" required>
+              </div>
+
+
+              <!-- Check-out -->
+              <div class="mb-3">
+                <label for="checkOut" class="form-label fw-semibold">
+                  Check-out
+                </label>
+
+                <input type="date" id="checkOut" name="checkOut" class="form-control" required>
+              </div>
+
+
+              <!-- Guests -->
+              <div class="mb-3">
+                <label for="guests" class="form-label fw-semibold">
+                  Guests
+                </label>
+
+                <select id="guests" name="guests" class="form-select" required>
+                  <option value="1" selected>1 guest</option>
+                  <option value="2">2 guests</option>
+                  <option value="3">3 guests</option>
+                  <option value="4">4 guests</option>
+                  <option value="5">5 guests</option>
+                  <option value="6">6 guests</option>
+                  <option value="7">7 guests</option>
+                  <option value="8">8 guests</option>
+                </select>
+              </div>
+
+
+              <!-- Rooms -->
+              <div class="mb-3">
+                <label for="rooms" class="form-label fw-semibold">
+                  Rooms
+                </label>
+
+                <select id="rooms" name="rooms" class="form-select" required>
+                  <option value="1" selected>1 room</option>
+                  <option value="2">2 rooms</option>
+                  <option value="3">3 rooms</option>
+                  <option value="4">4 rooms</option>
+                  <option value="5">5 rooms</option>
+                </select>
+              </div>
+
+
+              <button type="submit" class="btn btn-success w-100">
+                Reserve
+              </button>
+
             </form>
-          </div>
-          <%}%>
+
+            <% } %>
+
+              <br />
+
+
+              <%if(currUser && listing.owner && listing.owner._id && currUser._id.equals(listing.owner._id)){%>
+                <div class="btns d-flex gap-3 mt-3">
+                  <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark  edit-btn ">Edit</a>
+                  <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+                    <button class="btn btn-dark  ">Delete</button>
+                  </form>
+                </div>
+                <%}%>
       </div>
     </div>
     <div class="col-8 offset-2 mb-3">
@@ -49,11 +119,11 @@
         Leave a Review
       </h4>
       <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
-       
+
         <div class="mb-3 mt-3">
           <label for="rating" class="form-label">Rating</label>
           <fieldset class="starability-slot">
-            
+
             <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
               aria-label="No rating." />
             <input type="radio" id="first-rate1" name="review[rating]" value="1" />

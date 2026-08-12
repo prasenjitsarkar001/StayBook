@@ -1,0 +1,268 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container my-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-md-9">
+
+            <div class="booking-review-card">
+
+                <!-- Header -->
+
+                <div class="booking-review-header">
+
+                    <h2 class="fw-bold mb-2">
+                        Review your booking
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Check your booking details before continuing to payment.
+                    </p>
+
+                </div>
+
+
+                <!-- Property -->
+
+                <div class="property-section">
+
+                    <div class="property-info">
+
+                        <img
+                            src="<%= booking.listing.image.url %>"
+                            alt="<%= booking.listing.title %>"
+                            class="property-image"
+                        >
+
+                        <div>
+
+                            <h4 class="fw-bold mb-2">
+                                <%= booking.listing.title %>
+                            </h4>
+
+                            <p class="text-muted mb-1">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                <%= booking.listing.location %>,
+                                <%= booking.listing.country %>
+
+                            </p>
+
+                            <p class="small text-muted mb-0">
+
+                                ₹<%= booking.listing.price.toLocaleString("en-IN") %>
+                                / night
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Dates -->
+
+                <div class="booking-detail">
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            Dates
+                        </h5>
+
+                        <p class="mb-0 text-muted">
+
+                            <%= booking.checkIn.toLocaleDateString("en-IN", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric"
+                            }) %>
+
+                            -
+
+                            <%= booking.checkOut.toLocaleDateString("en-IN", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric"
+                            }) %>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Guests -->
+
+                <div class="booking-detail">
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            Guests
+                        </h5>
+
+                        <p class="mb-0 text-muted">
+
+                            <%= booking.guests %>
+                            <%= booking.guests === 1 ? "guest" : "guests" %>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Rooms -->
+
+                <div class="booking-detail">
+
+                    <div>
+
+                        <h5 class="fw-bold mb-1">
+                            Rooms
+                        </h5>
+
+                        <p class="mb-0 text-muted">
+
+                            <%= booking.rooms %>
+                            <%= booking.rooms === 1 ? "room" : "rooms" %>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Price Details -->
+
+                <div class="price-section">
+
+                    <h5 class="fw-bold mb-4">
+                        Price details
+                    </h5>
+
+
+                    <div class="price-row">
+
+                        <span>
+
+                            <%= booking.nights %>
+                            <%= booking.nights === 1 ? "night" : "nights" %>
+
+                            ×
+
+                            ₹<%= booking.listing.price.toLocaleString("en-IN") %>
+
+                            ×
+
+                            <%= booking.rooms %>
+                            <%= booking.rooms === 1 ? "room" : "rooms" %>
+
+                        </span>
+
+                        <strong>
+
+                            ₹<%= booking.basePrice.toLocaleString("en-IN") %>
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="price-row">
+
+                        <span>
+                            Tax (18%)
+                        </span>
+
+                        <strong>
+
+                            ₹<%= booking.tax.toLocaleString("en-IN") %>
+
+                        </strong>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <div class="price-row total-row">
+
+                        <strong>
+                            Total
+                        </strong>
+
+                        <strong>
+
+                            ₹<%= booking.totalAmount.toLocaleString("en-IN") %>
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Payment -->
+
+                <div class="payment-section">
+
+                    <div class="secure-payment">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        Secure payment powered by Razorpay
+
+                    </div>
+
+
+                    <form
+                        action="/payment/create-order/<%= booking._id %>"
+                        method="POST"
+                    >
+
+                        
+                        <button
+                            type="submit"
+                            class="confirm-pay-btn"
+                        >
+
+                            Confirm & Pay
+                            ₹<%= booking.totalAmount.toLocaleString("en-IN") %>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="text-center mt-3">
+
+                    <a
+                        href="/listings/<%= booking.listing._id %>"
+                        class="back-link"
+                    >
+
+                        ← Back to property
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

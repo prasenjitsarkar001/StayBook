@@ -29,12 +29,15 @@ const ExpressError = require("./utils/ExpressError.js");
 const listings =require("./routes/listing.js"); 
 const reviews =require("./routes/review.js");
 const userRouter =require("./routes/user.js");
-
+//payment
+const paymentRouter = require("./routes/payment.js");
+const bookingRouter = require("./routes/booking.js");
 
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
@@ -112,6 +115,8 @@ app.use((req, res, next) => {
 //routes part start
 app.use("/listings",listings);
 app.use("/listings/:id/reviews", reviews);
+app.use("/bookings", bookingRouter);
+app.use("/payment", paymentRouter);
 app.use("/",userRouter);
 //routes part end
 
